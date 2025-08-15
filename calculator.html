@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+
+    .display {
+      width: 100%;
+      height: 60px;
+      background: #222;
+      color: #0f0;
+      font-size: 28px;
+      text-align: right;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .buttons button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #f0f0f0;
+      transition: 0.3s;
+    }
+
+    .buttons button:hover {
+      background: #ddd;
+    }
+
+    .buttons .operator {
+      background: #ff5722;
+      color: white;
+    }
+
+    .buttons .operator:hover {
+      background: #e64a19;
+    }
+
+    .buttons .equal {
+      background: #4caf50;
+      color: white;
+    }
+
+    .buttons .equal:hover {
+      background: #388e3c;
+    }
+
+    @media (max-width: 400px) {
+      .calculator {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="toggleSign()">±</button>
+      <button onclick="calculatePercent()">%</button>
+      <button class="operator" onclick="operate('/')">÷</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button class="operator" onclick="operate('*')">×</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button class="operator" onclick="operate('-')">−</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button class="operator" onclick="operate('+')">+</button>
+
+      <button onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+      <button onclick="backspace()">⌫</button>
+
+      <button onclick="square()">x²</button>
+      <button onclick="squareRoot()">√</button>
+      <button onclick="reciprocal()">1/x</button>
+      <button onclick="appendValue('')"></button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById('display');
+    let expression = '';
+
+    function appendValue(value) {
+      if (display.innerText === '0') display.innerText = '';
+      display.innerText += value;
+      expression += value;
+    }
+
+    function clearDisplay() {
+      display.innerText = '0';
+      expression = '';
+    }
+
+    function backspace() {
+      expression = expression.slice(0, -1);
+      display.innerText = expression || '0';
+    }
+
+    function operate(operator) {
+      expression += operator;
+      display.innerText = expression;
+    }
+
+    function calculate() {
+      try {
+        expression = eval(expression).toString();
+        display.innerText = expression;
+      } catch {
+        display.innerText = 'Error';
+        expression = '';
+      }
+    }
+
+    function square() {
+      try {
+        expression = Math.pow(eval(expression), 2).toString();
+        display.innerText = expression;
+      } catch {
+        display.innerText = 'Error';
+        expression = '';
+      }
+    }
+
+    function squareRoot() {
+      try {
+        expression = Math.sqrt(eval(expression)).toString();
+        display.innerText = expression;
+      } catch {
+        display.innerText = 'Error';
+        expression = '';
+      }
+    }
+
+    function reciprocal() {
+      try {
+        expression = (1 / eval(expression)).toString();
+        display.innerText = expression;
+      } catch {
+        display.innerText = 'Error';
+        expression = '';
+      }
+    }
+
+    function calculatePercent() {
+      try {
+        expression = (eval(expression) / 100).toString();
+        display.innerText = expression;
+      } catch {
+        display.innerText = 'Error';
+        expression = '';
+      }
+    }
+
+    function toggleSign() {
+      try {
+        expression = (-eval(expression)).toString();
+        display.innerText = expression;
+      } catch {
+        display.innerText = 'Error';
+        expression = '';
+      }
+    }
+  </script>
+
+</body>
+</html>
